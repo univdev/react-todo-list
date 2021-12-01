@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './routes';
 
-import './styles/header.less';
+import './styles/index.scoped.css';
 import 'semantic-ui-css/semantic.min.css';
 
 ReactDOM.render(

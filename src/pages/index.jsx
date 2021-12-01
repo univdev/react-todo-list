@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoCard from './.components/TodoCard';
-import { Input } from 'semantic-ui-react';
-import './.styles/index.less';
+import { Input, Form, TextArea, Button } from 'semantic-ui-react';
+import './.styles/index.scoped.css';
 
 export default class Index extends React.Component {
   constructor(props) {
@@ -9,27 +9,40 @@ export default class Index extends React.Component {
     this.state = {
       items: [],
       payload: {
-        message: null,
+        author: '',
+        message: '',
       },
     };
+  }
+  handleChangeAuthor(author) {
+    this.setState({
+      ...this.state,
+      payload: {
+        ...this.state.payload,
+        author,
+      },
+    });
   }
   handleChangeMessage(message) {
     this.setState({
       ...this.state,
       payload: {
+        ...this.state.payload,
         message,
       },
     });
   }
   handleSubmitTodoItem(e) {
     e.preventDefault();
-    const { message } = this.state.payload;
+    const { author, message } = this.state.payload;
+    const createdAt = new Date();
     if (!message) throw new Error('메시지를 입력해주세요');
-    const result = { message };
+    const result = { author, message, createdAt };
     this.setState({
       ...this.state,
       payload: {
-        message: null,
+        ...this.state.payload,
+        message: '',
       },
       items: [...this.state.items, result],
     });
@@ -37,16 +50,33 @@ export default class Index extends React.Component {
   render() {
     return (
       <div className="container">
-        {[...this.state.items].map((item) => {
-          return (<TodoCard title={item.message}></TodoCard>);
+        {[...this.state.items].map((item, index) => {
+          return (
+            <TodoCard
+              key={index}
+              author={item.author}
+              createdAt={item.createdAt}
+              content={item.message}></TodoCard>
+            );
         })}
-        <form action="#" onSubmit={(e) => this.handleSubmitTodoItem(e)}>
+        <Form action="#" onSubmit={(e) => this.handleSubmitTodoItem(e)}>
           <Input
-            defaultValue={this.state.payload.message}
+            className="author-input"
+            value={this.state.payload.author}
+            placeholder="작성자 이름 입력"
+            onInput={(event) => this.handleChangeAuthor(event.target.value)}/>
+          <TextArea
+            className="message-input"
+            value={this.state.payload.message}
             placeholder="할 일 입력"
             type="text"
-            onInput={(value) => this.handleChangeMessage(value.target.value)}></Input>
-        </form>
+            onInput={(event) => this.handleChangeMessage(event.target.value)}/>
+          <Button
+            className="submit-button"
+            type="submit">
+            작성
+          </Button>
+        </Form>
       </div>
     );
   }
