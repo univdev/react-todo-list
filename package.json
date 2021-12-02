@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "babel-plugin-react-scoped-css": "^1.1.1",
     "craco-plugin-scoped-css": "^1.1.1",
     "fs-file-tree": "^1.1.1",
     "less": "^4.1.2",
@@ -45,6 +46,16 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "babel": {
+    "plugins": [
+      [
+        "babel-plugin-react-scoped-css",
+        {
+          "include": ".local.(sa|sc|c)ss$"
+        }
+      ]
     ]
   }
 }
